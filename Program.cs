@@ -5,6 +5,7 @@ var app = builder.Build();
 
 app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
+    Results.Created("/products/" + product.Code, product.Code);
 });
 
 //api.app.com/user/{code}  passar parametro atraves da rota
