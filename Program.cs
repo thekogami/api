@@ -29,7 +29,7 @@ app.MapDelete("/products/{code}", ([FromRoute] string code) => {
 });
 
 app.MapGet("/configuration/database", (IConfiguration configuration) => {
-    return Results.Ok(configuration["database:connnection"]);
+    return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");
 });
 
 app.Run();
