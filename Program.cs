@@ -3,37 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello world!");
-app.MapPost("/", () => new {Name = "Felipe B", Age = 22});
-app.MapGet("/AddHeader", (HttpResponse response) => {
-    response.Headers.Add("Teste", "Felipe B");
-    return new {Name = "Felipe Nasdrov", Age = 22};
-});
-
-app.MapPost("/saveproduct", (Product product) => {
+app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
 });
 
-//api.app.com/user?datastart={date}&dateend={date} atraves de query parametros
-app.MapGet("/getproduct", ([FromQuery] string dateStart, [FromQuery] string dateEnd) => {
-    return dateStart + " - " + dateEnd;
-});
 //api.app.com/user/{code}  passar parametro atraves da rota
-app.MapGet("/getproduct/{code}", ([FromRoute] string code) => {
+app.MapGet("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
     return product;
 });
 
-app.MapGet("/getproductbyheader", (HttpRequest request) => {
-    return request.Headers["product-code"].ToString();
-});
-
-app.MapPut("/editproduct", (Product product) => {
+app.MapPut("/products", (Product product) => {
     var productSaved = ProductRepository.GetBy(product.Code);
     productSaved.Name = product.Name;
 });
 
-app.MapDelete("/deleteproduct/{code}", ([FromRoute] string code) => {
+app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     var productSaved = ProductRepository.GetBy(code);
     ProductRepository.Remove(productSaved);
 });
