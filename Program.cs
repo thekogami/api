@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ApplicationDbContext>();
+var builder = WebApplication.CreateBuilder(args); // Criando um construtor de aplicação web
+builder.Services.AddDbContext<ApplicationDbContext>(); // Adicionando o serviço de contexto do banco de dados
 
 var app = builder.Build();
 var configuration = app.Configuration;
@@ -13,7 +13,7 @@ app.MapPost("/products", (Product product) => {
     return Results.Created($"/products/{product.Code}", product.Code);
 });
 
-//api.app.com/user/{code}  passar parametro atraves da rota
+//api.app.com/user/{code}  // Rota para obter um produto por código usando um método GET
 app.MapGet("/products/{code}", ([FromRoute] string code) => {
     var product = ProductRepository.GetBy(code);
     if(product != null)
@@ -33,6 +33,7 @@ app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     return Results.Ok();
 });
 
+// Verificando se a aplicação está no ambiente de preparação (staging)
 if(app.Environment.IsStaging())
     app.MapGet("/configuration/database", (IConfiguration configuration) => {
         return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");
