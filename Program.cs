@@ -48,6 +48,7 @@ app.Run();
 public static class ProductRepository {
     public static List<Product> Products { get; set; } = Products = new List<Product>();
 
+    // Método de inicialização do repositório com base na configuração
     public static void Init(IConfiguration configuration) {
         var products = configuration.GetSection("Products").Get<List<Product>>();
         Products = products;
@@ -73,10 +74,12 @@ public class Product {
     public string Name { get; set; }
 }
 
+// Classe de contexto de banco de dados
 public class ApplicationDbContext : DbContext {
 
     public DbSet<Product> Products { get; set; }
 
+    // Configurando o contexto do banco de dados
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=@Sql2023;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
 }
