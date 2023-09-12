@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>();
+
 var app = builder.Build();
 var configuration = app.Configuration;
 ProductRepository.Init(configuration);
@@ -64,7 +66,7 @@ public class Product {
     public string Name { get; set; }
 }
 
-public class AplicationDbContext : DbContext {
+public class ApplicationDbContext : DbContext {
 
     public DbSet<Product> Products { get; set; }
 
