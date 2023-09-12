@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args); // Criando um construtor de aplicação web
 builder.Services.AddDbContext<ApplicationDbContext>(); // Adicionando o serviço de contexto do banco de dados
 
-var app = builder.Build();
-var configuration = app.Configuration;
-ProductRepository.Init(configuration);
+var app = builder.Build();  // Construindo a aplicação
+var configuration = app.Configuration; // Obtendo a configuração da aplicação
+ProductRepository.Init(configuration); // Inicializando o repositório de produtos com base na configuração
 
+// Rota para criar um novo produto usando um método POST
 app.MapPost("/products", (Product product) => {
     ProductRepository.Add(product);
     return Results.Created($"/products/{product.Code}", product.Code);
@@ -21,12 +22,14 @@ app.MapGet("/products/{code}", ([FromRoute] string code) => {
     return Results.NotFound();
 });
 
+// Rota para atualizar um produto usando um método PUT
 app.MapPut("/products", (Product product) => {
     var productSaved = ProductRepository.GetBy(product.Code);
     productSaved.Name = product.Name;
     return Results.Ok();
 });
 
+// Rota para excluir um produto por código usando um método DELETE
 app.MapDelete("/products/{code}", ([FromRoute] string code) => {
     var productSaved = ProductRepository.GetBy(code);
     ProductRepository.Remove(productSaved);
@@ -41,6 +44,7 @@ if(app.Environment.IsStaging())
 
 app.Run();
 
+// Classe de repositório de produtos
 public static class ProductRepository {
     public static List<Product> Products { get; set; } = Products = new List<Product>();
 
@@ -53,6 +57,7 @@ public static class ProductRepository {
         Products.Add(product);
     }
 
+    // Método para obter um produto por código
     public static Product GetBy(string code) {
         return Products.FirstOrDefault(p => p.Code == code);
     }
@@ -62,6 +67,7 @@ public static class ProductRepository {
     }
 }
 
+// Classe de modelo de produto
 public class Product {
     public string Code { get; set; }
     public string Name { get; set; }
