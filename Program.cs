@@ -67,4 +67,7 @@ public class Product {
 public class AplicationDbContext : DbContext {
 
     public DbSet<Product> Products { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options.UseSqlServer("");
 }
