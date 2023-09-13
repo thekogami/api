@@ -59,6 +59,17 @@ app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest,
     product.Name = productRequest.Name;
     product.Description = productRequest.Description;
     product.Category = category;
+    product.Tags = new List<Tag>();
+    if(productRequest.Tags != null) // Verifica se a solicitação inclui tags
+    {
+        product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
+        foreach (var item in productRequest.Tags) // Itera sobre as tags fornecidas na solicitação e cria objetos de tag para cada uma
+        {
+            product.Tags.Add(new Tag{ Name = item });
+        }
+    }
+    
+    context.SaveChanges();
     return Results.Ok();
 });
 
