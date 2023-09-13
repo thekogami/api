@@ -10,24 +10,25 @@ ProductRepository.Init(configuration); // Inicializando o repositório de produt
 // Rota para criar um novo produto usando um método POST
 app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext context) =>
 {
-    var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
+    var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First(); // Recupera a categoria do banco de dados com base no ID fornecido na solicitação
+    // Cria um novo objeto de produto com base nos dados da solicitação
     var product = new Product {
         Code = productRequest.Code,
         Name = productRequest.Name,
         Description = productRequest.Description,
         Category = category
     };
-    if(productRequest.Tags != null) 
+    if(productRequest.Tags != null) // Verifica se a solicitação inclui tags
     {
-        product.Tags = new List<Tag>();
-        foreach (var item in productRequest.Tags) 
+        product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
+        foreach (var item in productRequest.Tags) // Itera sobre as tags fornecidas na solicitação e cria objetos de tag para cada uma
         {
             product.Tags.Add(new Tag{ Name = item });
         }
     }
-    context.Products.Add(product);
+    context.Products.Add(product); // add o produto ao contexto do BD
     context.SaveChanges();
-    return Results.Created($"/products/{product.Id}", product.Id);
+    return Results.Created($"/products/{product.Id}", product.Id); // Retorna uma resposta indicando a criação bem-sucedida do produto, incluindo o URL do novo produto e seu ID
 });
 
 //api.app.com/user/{code}  // Rota para obter um produto por código usando um método GET
