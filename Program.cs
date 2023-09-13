@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args); // Criando um construtor de aplicação web
-builder.Services.AddDbContext<ApplicationDbContext>(); // Adicionando o serviço de contexto do banco de dados
+builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["Database:SqlServer"]); // Adicionando o serviço de contexto do banco de dados
 
 var app = builder.Build();  // Construindo a aplicação
 var configuration = app.Configuration; // Obtendo a configuração da aplicação
@@ -105,6 +105,8 @@ public class ApplicationDbContext : DbContext {
 
     public DbSet<Product> Products { get; set; }
 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
+
     protected override void OnModelCreating(ModelBuilder builder) 
     {
         builder.Entity<Product>()
@@ -114,8 +116,4 @@ public class ApplicationDbContext : DbContext {
         builder.Entity<Product>()
             .Property(p => p.Code).HasMaxLength(20).IsRequired();
     }
-
-    // Configurando o contexto do banco de dados
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=@Sql2023;MultipleActiveResultSets=true;Encrypt=YES;TrustServerCertificate=YES");
 }
