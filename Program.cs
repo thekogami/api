@@ -57,3 +57,5 @@ if (app.Environment.IsStaging())
 //     });
 
 app.Run();
+
+public record ProductRequest(string code, string name, string description, int categoryId, List<string> tags);
