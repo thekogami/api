@@ -83,6 +83,11 @@ public class Category {
     public string Name { get; set; }
 }
 
+public class Tag {
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
 // Classe de modelo de produto
 public class Product {
     public int Id { get; set; }
@@ -91,6 +96,7 @@ public class Product {
     public string Description { get; set; }
     public int CategoryId { get; set; }
     public Category Category { get; set; }
+    public List<Tag> Tags { get; set; }
 }
 
 // Classe de contexto de banco de dados
