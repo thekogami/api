@@ -8,8 +8,15 @@ var configuration = app.Configuration; // Obtendo a configuração da aplicaçã
 ProductRepository.Init(configuration); // Inicializando o repositório de produtos com base na configuração
 
 // Rota para criar um novo produto usando um método POST
-app.MapPost("/products", (Product product) =>
+app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext context) =>
 {
+    var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
+    var product = new Product {
+        Code = productRequest.Code,
+        Name = productRequest.Name,
+        Description = productRequest.Description,
+        Category = category
+    };
     ProductRepository.Add(product);
     return Results.Created($"/products/{product.Code}", product.Code);
 });
