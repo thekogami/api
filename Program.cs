@@ -42,6 +42,16 @@ if(app.Environment.IsStaging())
         return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");
     });
 
+// if(app.Environment.IsDevelopment())
+//     app.MapGet("/configuration/database", (IConfiguration configuration) => {
+//         return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");
+//     });
+
+// if(app.Environment.IsProduction())
+//     app.MapGet("/configuration/database", (IConfiguration configuration) => {
+//         return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");
+//     });
+
 app.Run();
 
 // Classe de repositório de produtos
