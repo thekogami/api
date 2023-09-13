@@ -18,6 +18,7 @@ app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext co
         Category = category
     };
     context.Products.Add(product);
+    context.SaveChanges();
     return Results.Created($"/products/{product.Id}", product.Id);
 });
 
