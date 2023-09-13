@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args); // Criando um construtor de aplicação web
 builder.Services.AddSqlServer<ApplicationDbContext>(builder.Configuration["Database:SqlServer"]); // Adicionando o serviço de contexto do banco de dados
@@ -32,11 +33,16 @@ app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext co
 });
 
 //api.app.com/user/{code}  // Rota para obter um produto por código usando um método GET
-app.MapGet("/products/{code}", ([FromRoute] string code) =>
+app.MapGet("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) =>
 {
-    var product = ProductRepository.GetBy(code);
-    if (product != null)
+    var product = context.Products
+        .Include(p => p.Category)
+        .Include(p => p.Tags)
+        .Where(p => p.Id == id).First();
+    if (product != null) {
+        Console.WriteLine("Product found");
         return Results.Ok(product);
+    }        
     return Results.NotFound();
 });
 
