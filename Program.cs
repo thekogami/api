@@ -17,8 +17,8 @@ app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext co
         Description = productRequest.Description,
         Category = category
     };
-    ProductRepository.Add(product);
-    return Results.Created($"/products/{product.Code}", product.Code);
+    context.Products.Add(product);
+    return Results.Created($"/products/{product.Id}", product.Id);
 });
 
 //api.app.com/user/{code}  // Rota para obter um produto por código usando um método GET
