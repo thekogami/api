@@ -47,10 +47,18 @@ app.MapGet("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) 
 });
 
 // Rota para atualizar um produto usando um método PUT
-app.MapPut("/products", (Product product) =>
+app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest, ApplicationDbContext context) =>
 {
-    var productSaved = ProductRepository.GetBy(product.Code);
-    productSaved.Name = product.Name;
+    var product = context.Products
+        .Include(p => p.Category)
+        .Include(p => p.Tags)
+        .Where(p => p.Id == id).First();
+    var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
+
+    product.Code = productRequest.Code;
+    product.Name = productRequest.Name;
+    product.Description = productRequest.Description;
+    product.Category = category;
     return Results.Ok();
 });
 
