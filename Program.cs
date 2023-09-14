@@ -50,7 +50,6 @@ app.MapGet("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) 
 app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest, ApplicationDbContext context) =>
 {
     var product = context.Products
-        .Include(p => p.Category)
         .Include(p => p.Tags)
         .Where(p => p.Id == id).First();
     var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
@@ -59,10 +58,9 @@ app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest,
     product.Name = productRequest.Name;
     product.Description = productRequest.Description;
     product.Category = category;
-    product.Tags = new List<Tag>();
     if(productRequest.Tags != null) // Verifica se a solicitação inclui tags
     {
-        product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
+        //product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
         foreach (var item in productRequest.Tags) // Itera sobre as tags fornecidas na solicitação e cria objetos de tag para cada uma
         {
             product.Tags.Add(new Tag{ Name = item });
@@ -74,7 +72,7 @@ app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest,
 });
 
 // Rota para excluir um produto por código usando um método DELETE
-app.MapDelete("/products/{code}", ([FromRoute] string code) =>
+app.MapDelete("/products/{id}", ([FromRoute] string code) =>
 {
     var productSaved = ProductRepository.GetBy(code);
     ProductRepository.Remove(productSaved);
