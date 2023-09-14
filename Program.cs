@@ -13,18 +13,19 @@ app.MapPost("/products", (ProductRequest productRequest, ApplicationDbContext co
 {
     var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First(); // Recupera a categoria do banco de dados com base no ID fornecido na solicitação
     // Cria um novo objeto de produto com base nos dados da solicitação
-    var product = new Product {
+    var product = new Product
+    {
         Code = productRequest.Code,
         Name = productRequest.Name,
         Description = productRequest.Description,
         Category = category
     };
-    if(productRequest.Tags != null) // Verifica se a solicitação inclui tags
+    if (productRequest.Tags != null) // Verifica se a solicitação inclui tags
     {
         product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
         foreach (var item in productRequest.Tags) // Itera sobre as tags fornecidas na solicitação e cria objetos de tag para cada uma
         {
-            product.Tags.Add(new Tag{ Name = item });
+            product.Tags.Add(new Tag { Name = item });
         }
     }
     context.Products.Add(product); // add o produto ao contexto do BD
@@ -39,10 +40,11 @@ app.MapGet("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) 
         .Include(p => p.Category)
         .Include(p => p.Tags)
         .Where(p => p.Id == id).First();
-    if (product != null) {
+    if (product != null)
+    {
         Console.WriteLine("Product found");
         return Results.Ok(product);
-    }        
+    }
     return Results.NotFound();
 });
 
@@ -50,23 +52,30 @@ app.MapGet("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) 
 app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest, ApplicationDbContext context) =>
 {
     var product = context.Products
+        //.Include(p => p.Category)
         .Include(p => p.Tags)
         .Where(p => p.Id == id).First();
+
+
     var category = context.Categories.Where(c => c.Id == productRequest.CategoryId).First();
 
     product.Code = productRequest.Code;
     product.Name = productRequest.Name;
     product.Description = productRequest.Description;
     product.Category = category;
-    if(productRequest.Tags != null) // Verifica se a solicitação inclui tags
+    if (productRequest.Tags != null) // Verifica se a solicitação inclui tags
     {
         //product.Tags = new List<Tag>(); // Inicializa uma lista vazia de tags para o produto
         foreach (var item in productRequest.Tags) // Itera sobre as tags fornecidas na solicitação e cria objetos de tag para cada uma
         {
-            product.Tags.Add(new Tag{ Name = item });
+            product.Tags.Add(new Tag { Name = item });
         }
+
+        /*List<Tag> tags = productRequest.Tags.Select(s => new Tag { Name = s }).ToList();
+        product.Tags.AddRange(tags);*/
+
     }
-    
+
     context.SaveChanges();
     return Results.Ok();
 });
