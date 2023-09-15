@@ -7,6 +7,7 @@ Aqui está uma explicação das principais funcionalidades deste programa:
 Configuração do Banco de Dados:
 
 O programa configura a conexão com o banco de dados SQL Server com base nas informações fornecidas na configuração da aplicação.
+
 Rotas para Manipulação de Produtos:
 
 Este programa define várias rotas HTTP para manipular produtos:
