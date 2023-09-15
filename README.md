@@ -10,10 +10,10 @@ O programa configura a conexão com o banco de dados SQL Server com base nas inf
 Rotas para Manipulação de Produtos:
 
 Este programa define várias rotas HTTP para manipular produtos:
-`POST /products`: Cria um novo produto com base nos dados fornecidos na solicitação `POST`. Isso inclui a criação de uma nova categoria (se não existir) e tags associadas ao produto.
-`GET /products/{id}`: Recupera um produto existente por seu ID e retorna os detalhes do produto.
-`PUT /products/{id}`: Atualiza um produto existente com base nos dados fornecidos na solicitação PUT.
-`DELETE /products/{id}`: Exclui um produto com base no ID fornecido na solicitação DELETE.
+ * `POST /products`: Cria um novo produto com base nos dados fornecidos na solicitação `POST`. Isso inclui a criação de uma nova categoria (se não existir) e tags associadas ao produto.
+ * `GET /products/{id}`: Recupera um produto existente por seu ID e retorna os detalhes do produto.
+ * `PUT /products/{id}`: Atualiza um produto existente com base nos dados fornecidos na solicitação PUT.
+ * `DELETE /products/{id}`: Exclui um produto com base no ID fornecido na solicitação DELETE.
 
 Recuperação de Configuração de Banco de Dados:
 
