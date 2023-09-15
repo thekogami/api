@@ -1,4 +1,4 @@
-# api
+# api    ASP.NET Core e o Entity Framework Core
 
 O objetivo deste programa é criar uma aplicação web usando o framework ASP.NET Core e o Entity Framework Core para realizar operações CRUD (Create, Read, Update, Delete) em produtos, bem como fornecer informações sobre a configuração do banco de dados quando a aplicação está em um ambiente de preparação (staging).
 
