@@ -26,4 +26,5 @@ A criação de um novo produto envolve a verificação da existência da categor
 Controle de Ambiente:
 
 O programa verifica o ambiente em que está sendo executado (desenvolvimento, preparação, produção) usando `app.Environment.IsStaging()` e define a rota para recuperar informações de configuração do banco de dados apenas no ambiente de preparação.
+
 Este programa é uma aplicação de exemplo que demonstra como criar uma API web para gerenciar produtos com ASP.NET Core e Entity Framework Core, além de como acessar informações de configuração dependendo do ambiente em que a aplicação está sendo executada. É uma base sólida para construir uma aplicação completa de gerenciamento de produtos.
