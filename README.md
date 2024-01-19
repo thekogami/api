@@ -1,31 +1,33 @@
-# api    ASP.NET Core e o Entity Framework Core
+# API ASP.NET Core and Entity Framework Core
 
-O objetivo deste programa é criar uma aplicação web usando o framework ASP.NET Core e o Entity Framework Core para realizar operações CRUD (Create, Read, Update, Delete) em produtos, bem como fornecer informações sobre a configuração do banco de dados quando a aplicação está em um ambiente de preparação (staging).
+The purpose of this program is to create a web application using the ASP.NET Core framework and Entity Framework Core to perform CRUD (Create, Read, Update, Delete) operations on products, as well as to provide information about the database configuration when the application is in a staging environment.
 
-Aqui está uma explicação das principais funcionalidades deste programa:
+## Features
 
-Configuração do Banco de Dados:
+### Database Configuration:
 
-O programa configura a conexão com o banco de dados SQL Server com base nas informações fornecidas na configuração da aplicação.
+The program configures the connection to the SQL Server database based on the information provided in the application configuration.
 
-Rotas para Manipulação de Produtos:
+### Routes for Product Manipulation:
 
-Este programa define várias rotas HTTP para manipular produtos:
- * `POST /products`: Cria um novo produto com base nos dados fornecidos na solicitação `POST`. Isso inclui a criação de uma nova categoria (se não existir) e tags associadas ao produto.
- * `GET /products/{id}`: Recupera um produto existente por seu ID e retorna os detalhes do produto.
- * `PUT /products/{id}`: Atualiza um produto existente com base nos dados fornecidos na solicitação PUT.
- * `DELETE /products/{id}`: Exclui um produto com base no ID fornecido na solicitação DELETE.
+This program defines various HTTP routes to manipulate products:
+ - `POST /products`: Creates a new product based on the data provided in the `POST` request. This includes creating a new category (if it does not exist) and tags associated with the product.
+ - `GET /products/{id}`: Retrieves an existing product by its ID and returns the product details.
+ - `PUT /products/{id}`: Updates an existing product based on the data provided in the `PUT` request.
+ - `DELETE /products/{id}`: Deletes a product based on the ID provided in the `DELETE` request.
 
-Recuperação de Configuração de Banco de Dados:
+### Database Configuration Retrieval:
 
-Quando a aplicação está em um ambiente de preparação (staging), ele fornece informações sobre a configuração do banco de dados, como a conexão e a porta, quando a rota GET /configuration/database é acessada.
+When the application is in a staging environment, it provides information about the database configuration, such as the connection and port, when the `GET /configuration/database` route is accessed.
 
-Gestão de Categoria e Tags:
+### Category and Tags Management:
 
-A criação de um novo produto envolve a verificação da existência da categoria do produto no banco de dados. Se não existir, a categoria será criada. O mesmo ocorre com as tags associadas ao produto.
+Creating a new product involves checking the existence of the product category in the database. If it does not exist, the category will be created. The same applies to tags associated with the product.
 
-Controle de Ambiente:
+### Environment Control:
 
-O programa verifica o ambiente em que está sendo executado (desenvolvimento, preparação, produção) usando `app.Environment.IsStaging()` e define a rota para recuperar informações de configuração do banco de dados apenas no ambiente de preparação.
+The program checks the environment in which it is being executed (development, staging, production) using `app.Environment.IsStaging()` and defines the route to retrieve database configuration information only in the staging environment.
 
-Este programa é uma aplicação de exemplo que demonstra como criar uma API web para gerenciar produtos com ASP.NET Core e Entity Framework Core, além de como acessar informações de configuração dependendo do ambiente em que a aplicação está sendo executada. É uma base sólida para construir uma aplicação completa de gerenciamento de produtos.
+## Overview
+
+This program is a sample application that demonstrates how to create a web API to manage products with ASP.NET Core and Entity Framework Core, as well as how to access configuration information depending on the environment in which the application is running. It serves as a solid foundation for building a complete product management application.
